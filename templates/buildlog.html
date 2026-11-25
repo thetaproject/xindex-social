@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block style %}
+  .wrap { display: grid; grid-template-columns: 1fr 1.05fr; gap: 56px; align-items: center; }
+  h1 { font-size: 58px; line-height: 1.06; }
+  .sub { margin-top: 22px; font-size: 20px; }
+  .list { padding: 30px 32px; }
+  .label { font-size: 12px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: var(--green); margin-bottom: 18px; }
+  .item { display: flex; gap: 14px; align-items: flex-start; padding: 13px 0; border-top: 1px solid var(--line); font-size: 19px; line-height: 1.35; color: var(--text-2); }
+  .item:first-of-type { border-top: 0; }
+  .tick { flex: none; width: 22px; height: 22px; margin-top: 1px; }
+{% endblock %}
+{% block body %}
+  <div class="wrap">
+    <div>
+      <h1>{{ headline | safe }}</h1>
+      {% if sub %}<p class="sub">{{ sub | safe }}</p>{% endif %}
+    </div>
+    <div class="card list">
+      <div class="label">{{ list_label or "Shipped this week" }}</div>
+      {% for it in items %}
+      <div class="item"><svg class="tick" viewBox="0 0 24 24" fill="none" stroke="rgb(5,223,114)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>{{ it | safe }}</span></div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

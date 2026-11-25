@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block style %}
+  h1 { font-size: 52px; line-height: 1.08; max-width: 1000px; }
+  .steps { margin-top: 44px; display: grid; grid-template-columns: repeat({{ steps|length }}, 1fr); gap: 0; border-top: 1px solid var(--line-2); }
+  .step { padding: 26px 28px 0 0; }
+  .num { font-size: 44px; font-weight: 600; color: var(--text); line-height: 1; }
+  .step h3 { margin-top: 18px; font-size: 22px; font-weight: 600; color: var(--text); }
+  .step p { margin-top: 8px; font-size: 16px; line-height: 1.45; color: var(--text-3); }
+{% endblock %}
+{% block body %}
+  <h1>{{ headline | safe }}</h1>
+  <div class="steps">
+    {% for s in steps %}
+    <div class="step"><div class="num">{{ loop.index }}</div><h3>{{ s.title }}</h3><p>{{ s.text }}</p></div>
+    {% endfor %}
+  </div>
+{% endblock %}

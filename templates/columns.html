@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block style %}
+  h1 { font-size: 52px; line-height: 1.08; max-width: 1000px; }
+  .cols { margin-top: 40px; display: grid; grid-template-columns: repeat({{ columns|length }}, 1fr); gap: 16px; }
+  .col { padding: 26px 26px 28px; }
+  .tag { font-size: 12px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: var(--eyebrow); }
+  .col h3 { margin-top: 16px; font-size: 26px; font-weight: 600; color: var(--text); }
+  .col p { margin-top: 10px; font-size: 16px; line-height: 1.45; color: var(--text-3); }
+  .bar { margin-top: 16px; padding: 20px 26px; display: flex; gap: 16px; align-items: center; font-size: 21px; font-weight: 500; color: var(--text); }
+  .bar .x { flex: none; width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--line-2); display: grid; place-items: center; }
+  .bar em { font-style: normal; color: var(--blue-soft); }
+{% endblock %}
+{% block body %}
+  <h1>{{ headline | safe }}</h1>
+  <div class="cols">
+    {% for c in columns %}
+    <div class="card col"><div class="tag">{{ c.tag }}</div><h3>{{ c.title }}</h3><p>{{ c.text }}</p></div>
+    {% endfor %}
+  </div>
+  {% if bar %}
+  <div class="card bar"><span class="x"><svg width="14" height="16" viewBox="0 0 23 24" fill="#fff"><path d="M5.57 24H0L8.36 11.78L.25.45H5.95L13.8 11.9Z"/><path d="M12.59 6.42L15.29 10.05L22.67.45H17.1Z"/><path d="M12.59 16.75L14.93 13.49L22.67 24H17.1Z"/></svg></span><span>{{ bar | safe }}</span></div>
+  {% endif %}
+{% endblock %}

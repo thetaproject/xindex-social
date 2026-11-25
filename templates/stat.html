@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block style %}
+  .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 64px; align-items: center; }
+  .big { font-size: 168px; font-weight: 600; letter-spacing: -0.04em; line-height: 0.95; color: var(--text); }
+  .big em { font-style: normal; color: var(--blue-soft); }
+  .label { margin-top: 18px; font-size: 22px; color: var(--text-2); line-height: 1.4; }
+  h1 { font-size: 40px; line-height: 1.15; }
+  .sub { margin-top: 18px; font-size: 19px; }
+  .source { margin-top: 44px; font-size: 13px; color: var(--text-3); }
+{% endblock %}
+{% block body %}
+  <div class="wrap">
+    <div><div class="big">{{ number | safe }}</div><div class="label">{{ label | safe }}</div></div>
+    <div><h1>{{ headline | safe }}</h1>{% if sub %}<p class="sub">{{ sub | safe }}</p>{% endif %}</div>
+  </div>
+  <div class="source">Source: {{ source }}</div>
+{% endblock %}

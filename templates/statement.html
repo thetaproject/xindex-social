@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block style %}
+  h1 { font-size: {{ size or 76 }}px; line-height: 1.04; max-width: 1000px; }
+  .sub { margin-top: 28px; max-width: 980px; }
+{% endblock %}
+{% block body %}
+  <h1>{{ headline | safe }}</h1>
+  {% if sub %}<p class="sub">{{ sub | safe }}</p>{% endif %}
+{% endblock %}
