@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block style %}
+  h1 { font-size: 46px; line-height: 1.1; max-width: 980px; }
+  .grid { margin-top: 42px; display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--line-2); }
+  .side { padding: 30px 40px 0 0; }
+  .side + .side { padding-left: 40px; border-left: 1px solid var(--line); }
+  .lab { font-size: 12px; font-weight: 500; letter-spacing: 0.24em; text-transform: uppercase; color: var(--eyebrow); }
+  .num { margin-top: 18px; font-size: 104px; font-weight: 600; letter-spacing: -0.045em; line-height: 0.95; font-variant-numeric: tabular-nums; }
+  .num.down { color: var(--text-3); }
+  .num.up { color: var(--blue-soft); }
+  .note { margin-top: 14px; font-size: 18px; line-height: 1.4; color: var(--text-2); max-width: 440px; }
+  .source { margin-top: 34px; font-size: 13px; color: var(--text-3); }
+{% endblock %}
+{% block body %}
+  <h1>{{ headline | safe }}</h1>
+  <div class="grid">
+    {% for s in sides %}
+    <div class="side"><div class="lab">{{ s.label }}</div><div class="num {{ s.tone or '' }}">{{ s.number | safe }}</div><div class="note">{{ s.note | safe }}</div></div>
+    {% endfor %}
+  </div>
+  <div class="source">Source: {{ source }}</div>
+{% endblock %}

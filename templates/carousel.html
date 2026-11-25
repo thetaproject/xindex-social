@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'General Sans'; src: url('{{ root }}/fonts/GeneralSans-Variable.woff2') format('woff2'); font-weight: 200 700; }
+  @page { size: 1080px 1350px; margin: 0; }
+  :root { --bg:#000; --card:#0a0a14; --line:rgba(255,255,255,0.08); --line-2:rgba(255,255,255,0.14);
+    --text:#fff; --text-2:rgb(209,213,220); --text-3:rgb(153,161,175); --eyebrow:#abaebe;
+    --blue:#3b82f6; --blue-soft:#60a5fa; --green:rgb(5,223,114); }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { background:#000; }
+  body { font-family:'General Sans', system-ui, sans-serif; color:var(--text); -webkit-font-smoothing:antialiased; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  .slide { position:relative; width:1080px; height:1350px; padding:84px 88px; display:flex; flex-direction:column; overflow:hidden; page-break-after:always; break-after:page; background:#000; }
+  .slide:last-child { page-break-after:auto; break-after:auto; }
+  .glow { position:absolute; inset:0; pointer-events:none; background:radial-gradient(900px 520px at 85% -8%, rgba(70,110,255,0.17), transparent 62%); }
+  .top { position:relative; display:flex; justify-content:space-between; align-items:center; }
+  .logo { height:30px; }
+  .count { font-size:15px; font-weight:500; letter-spacing:0.2em; color:var(--eyebrow); font-variant-numeric:tabular-nums; }
+  .main { position:relative; flex:1; display:flex; flex-direction:column; justify-content:center; }
+  .eyebrow { font-size:15px; font-weight:500; letter-spacing:0.24em; text-transform:uppercase; color:var(--eyebrow); margin-bottom:34px; }
+  h1 { font-weight:600; letter-spacing:-0.028em; line-height:1.03; }
+  h1 em, .accent { font-style:normal; color:var(--blue-soft); }
+  .h-xl { font-size:104px; } .h-l { font-size:80px; } .h-m { font-size:64px; }
+  .body { margin-top:40px; font-size:30px; line-height:1.45; color:var(--text-3); max-width:840px; }
+  .body b { color:var(--text); font-weight:500; }
+  .big { font-size:260px; font-weight:600; letter-spacing:-0.05em; line-height:0.9; font-variant-numeric:tabular-nums; }
+  .big em { font-style:normal; color:var(--blue-soft); }
+  .biglabel { margin-top:26px; font-size:34px; line-height:1.35; color:var(--text-2); max-width:820px; }
+  .source { margin-top:44px; font-size:18px; color:var(--text-3); }
+  .rows { margin-top:52px; border-top:1px solid var(--line-2); }
+  .row { display:flex; gap:28px; padding:28px 0; border-bottom:1px solid var(--line); align-items:baseline; }
+  .row .k { flex:none; width:64px; font-size:22px; font-weight:500; color:var(--eyebrow); font-variant-numeric:tabular-nums; }
+  .row .v { font-size:32px; line-height:1.35; color:var(--text-2); }
+  .row .v b { color:var(--text); font-weight:600; }
+  .art { position:absolute; right:-260px; top:90px; width:1500px; height:844px;
+    background:url('{{ root }}/assets/prism.jpg') center/cover no-repeat;
+    -webkit-mask-image:radial-gradient(closest-side,#000 60%,transparent 100%); mask-image:radial-gradient(closest-side,#000 60%,transparent 100%); }
+  .cover .main { justify-content:flex-end; padding-bottom:56px; }
+  .foot { position:relative; display:flex; justify-content:space-between; align-items:center; font-size:18px; color:var(--text-3); }
+  .foot .h { color:var(--text-2); font-weight:500; }
+  .swipe { display:flex; align-items:center; gap:12px; color:var(--text-2); font-weight:500; }
+  .swipe svg { width:22px; height:22px; }
+</style>
+</head>
+<body>
+{% for s in slides %}
+<section class="slide {{ s.kind }}">
+  {% if s.kind == 'cover' %}<div class="art"></div>{% else %}<div class="glow"></div>{% endif %}
+  <div class="top">
+    <img class="logo" src="{{ root }}/assets/xindex-wordmark-white.svg" alt="Xindex">
+    <div class="count">{{ '%02d' % loop.index }} / {{ '%02d' % slides|length }}</div>
+  </div>
+  <div class="main">
+    {% if s.eyebrow %}<div class="eyebrow">{{ s.eyebrow }}</div>{% endif %}
+    {% if s.kind == 'stat' %}
+      <div class="big">{{ s.number | safe }}</div>
+      <div class="biglabel">{{ s.label | safe }}</div>
+      {% if s.source %}<div class="source">Source: {{ s.source }}</div>{% endif %}
+    {% else %}
+      {% if s.headline %}<h1 class="{{ s.size or 'h-l' }}">{{ s.headline | safe }}</h1>{% endif %}
+      {% if s.body %}<p class="body">{{ s.body | safe }}</p>{% endif %}
+      {% if s.rows %}<div class="rows">{% for r in s.rows %}<div class="row"><div class="k">{{ '%02d' % loop.index }}</div><div class="v">{{ r | safe }}</div></div>{% endfor %}</div>{% endif %}
+    {% endif %}
+  </div>
+  <div class="foot">
+    <span>{{ s.footer or footer or "The index layer for crypto" }}</span>
+    {% if not loop.last %}<span class="swipe">Swipe <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>{% else %}<span class="h">@Xindexio</span>{% endif %}
+  </div>
+</section>
+{% endfor %}
+</body>
+</html>

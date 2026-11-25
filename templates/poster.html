@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block style %}
+  .art { position: absolute; right: -150px; top: 50%; width: 900px; height: 506px; transform: translateY(-48%);
+    background: url('{{ root }}/assets/prism.jpg') center/cover no-repeat;
+    -webkit-mask-image: radial-gradient(closest-side, #000 62%, transparent 100%); mask-image: radial-gradient(closest-side, #000 62%, transparent 100%);
+    opacity: 0.95; }
+  .glow { display: none; }
+  .copy { position: relative; max-width: 700px; }
+  .kicker { font-size: 15px; font-weight: 500; color: var(--text-3); letter-spacing: 0.01em; margin-bottom: 26px; display: flex; align-items: center; gap: 12px; }
+  .kicker::before { content: ""; width: 28px; height: 1px; background: var(--line-3, rgba(255,255,255,0.3)); }
+  h1 { font-size: {{ size or 70 }}px; line-height: 1.03; letter-spacing: -0.028em; }
+  .sub { margin-top: 26px; font-size: 21px; max-width: 600px; }
+{% endblock %}
+{% block body %}
+  <div class="art"></div>
+  <div class="copy">
+    {% if kicker %}<div class="kicker">{{ kicker }}</div>{% endif %}
+    <h1>{{ headline | safe }}</h1>
+    {% if sub %}<p class="sub">{{ sub | safe }}</p>{% endif %}
+  </div>
+{% endblock %}

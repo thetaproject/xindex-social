@@ -1,0 +1,58 @@
+{
+ "template": "carousel",
+ "footer": "Xindex · Field notes",
+ "slides": [
+  {
+   "kind": "cover",
+   "eyebrow": "Field notes · 01",
+   "headline": "Every asset class<br>gets its index.<br><em>Tokenized assets are next.</em>",
+   "size": "h-m"
+  },
+  {
+   "kind": "stat",
+   "eyebrow": "Where it started",
+   "number": "1976",
+   "label": "The first index fund for ordinary investors launches. Critics call it “Bogle’s Folly.”"
+  },
+  {
+   "kind": "stat",
+   "eyebrow": "Where it went",
+   "number": "55<em>%</em>",
+   "label": "of US fund assets sat in passive funds at the end of 2025: $19.4 trillion.",
+   "source": "Morningstar"
+  },
+  {
+   "kind": "stat",
+   "eyebrow": "The wrapper that won",
+   "number": "$23.9<em>T</em>",
+   "label": "in ETFs worldwide, after 88 straight months of net inflows.",
+   "source": "ETFGI, end of September 2026"
+  },
+  {
+   "kind": "stat",
+   "eyebrow": "The next asset class",
+   "number": "5<em>×</em>",
+   "label": "Onchain value of tokenized stocks since January 1, 2026. It crossed $4 billion on November 11.",
+   "source": "The Block, November 19, 2026"
+  },
+  {
+   "kind": "text",
+   "eyebrow": "The gap",
+   "headline": "The assets moved on chain.<br><em>The index didn’t.</em>",
+   "size": "h-m",
+   "body": "A balanced position on chain still means a wallet of separate tokens, separate trades and rebalancing by hand. What made passive investing win — <b>one ticker, set weights, automatic upkeep</b> — barely exists there yet."
+  },
+  {
+   "kind": "text",
+   "eyebrow": "What we’re building",
+   "headline": "Index tokens for <em>everything on chain.</em>",
+   "size": "h-m",
+   "rows": [
+    "<b>One token</b> for up to 200 assets: stocks, gold and crypto",
+    "<b>Backed in kind</b> by the assets themselves",
+    "<b>Rebalanced</b> by an open auction, redeemable any time",
+    "<b>On testnet now.</b> We share the build here every week"
+   ]
+  }
+ ]
+}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block style %}
+  .wrap { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 56px; align-items: end; }
+  h1 { font-size: 48px; line-height: 1.08; }
+  .sub { margin-top: 20px; font-size: 19px; }
+  .source { margin-top: 28px; font-size: 13px; color: var(--text-3); }
+  .chart { position: relative; height: 380px; display: flex; align-items: flex-end; gap: 22px; padding: 0 4px; border-bottom: 1px solid var(--line-2); }
+  .bar { flex: 1; position: relative; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; }
+  .fill { width: 100%; border-radius: 6px 6px 0 0; background: linear-gradient(180deg, rgba(96,165,250,0.55), rgba(59,130,246,0.18)); border: 1px solid rgba(96,165,250,0.35); border-bottom: 0; }
+  .bar.hi .fill { background: linear-gradient(180deg, #60a5fa, #2563eb); border-color: #60a5fa; }
+  .val { margin-bottom: 12px; font-size: 22px; font-weight: 600; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--text); }
+  .bar:not(.hi) .val { color: var(--text-2); }
+  .xl { position: absolute; bottom: -34px; font-size: 14px; color: var(--text-3); white-space: nowrap; }
+  .chartwrap { padding-bottom: 34px; }
+{% endblock %}
+{% block body %}
+  {% set mx = bars | map(attribute='value') | max %}
+  <div class="wrap">
+    <div>
+      <h1>{{ headline | safe }}</h1>
+      {% if sub %}<p class="sub">{{ sub | safe }}</p>{% endif %}
+      <div class="source">Source: {{ source }}</div>
+    </div>
+    <div class="chartwrap"><div class="chart">
+      {% for b in bars %}
+      <div class="bar {{ 'hi' if loop.last else '' }}"><div class="val">{{ b.label_value }}</div><div class="fill" style="height: {{ (b.value / mx * 82) | round(1) }}%"></div><div class="xl">{{ b.x }}</div></div>
+      {% endfor %}
+    </div></div>
+  </div>
+{% endblock %}

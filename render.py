@@ -9,7 +9,8 @@ The spec names a template in templates/ and fills its fields, e.g.
    "sub": "Up to 200 assets. Your weights. Backed in kind."}
 
 Output is a 1200x675 frame rendered at 2x (2400x1350 PNG), which fits
-X (16:9) and LinkedIn feed images.
+X (16:9) and LinkedIn feed images. The "carousel" template writes a 1080x1350
+multi-page PDF (a LinkedIn document post) plus a PNG of its first slide.
 
 Fonts: General Sans is not stored in this public repo (its licence is not
 an open-source one). Put GeneralSans-Variable.woff2 in fonts/ before rendering;
@@ -19,7 +20,7 @@ import json, os, pathlib, shutil, subprocess, sys, tempfile
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 ROOT = pathlib.Path(__file__).resolve().parent
-TEMPLATES = ["statement", "steps", "buildlog", "stat", "columns"]
+TEMPLATES = ["statement", "steps", "buildlog", "stat", "columns", "poster", "versus", "chart", "carousel"]
 
 
 def find_chrome():
@@ -35,22 +36,37 @@ def render(spec_path, out_path):
     tpl = spec.get("template")
     if tpl not in TEMPLATES:
         sys.exit(f"template must be one of {TEMPLATES}, got {tpl!r}")
-    if tpl == "stat" and not spec.get("source"):
-        sys.exit("stat template needs a 'source' (real, citable number only)")
+    if tpl in ("stat", "versus", "chart") and not spec.get("source"):
+        sys.exit(f"{tpl} template needs a 'source' (real, citable numbers only)")
     if not (ROOT / "fonts" / "GeneralSans-Variable.woff2").exists():
         print("WARNING: fonts/GeneralSans-Variable.woff2 missing - falling back to system sans", file=sys.stderr)
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
-    html = env.get_template(f"{tpl}.html").render(root=ROOT.as_uri(), **spec)
     out = pathlib.Path(out_path).resolve()
     out.parent.mkdir(parents=True, exist_ok=True)
+    chrome = find_chrome()
+    base = [chrome, "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars",
+            "--allow-file-access-from-files", "--virtual-time-budget=4000"]
     with tempfile.TemporaryDirectory() as td:
         page = pathlib.Path(td) / "page.html"
-        page.write_text(html, encoding="utf-8")
-        cmd = [find_chrome(), "--headless=new", "--no-sandbox", "--disable-gpu", "--hide-scrollbars",
-               "--allow-file-access-from-files", "--force-device-scale-factor=2",
-               "--window-size=1200,675", "--virtual-time-budget=3000",
-               f"--screenshot={out}", page.as_uri()]
-        subprocess.run(cmd, check=True, capture_output=True, timeout=120)
+        if tpl == "carousel":
+            # out_path is the PDF; a PNG of the first slide is written beside it as the cover/thumbnail
+            if out.suffix != ".pdf":
+                sys.exit("carousel output must be a .pdf")
+            page.write_text(env.get_template("carousel.html").render(root=ROOT.as_uri(), **spec), encoding="utf-8")
+            subprocess.run(base + ["--no-pdf-header-footer", f"--print-to-pdf={out}", page.as_uri()],
+                           check=True, capture_output=True, timeout=180)
+            first = dict(spec, slides=spec["slides"][:1])
+            cover = pathlib.Path(td) / "cover.html"
+            cover.write_text(env.get_template("carousel.html").render(root=ROOT.as_uri(), **first)
+                             .replace("{{ '%02d' % loop.index }}", ""), encoding="utf-8")
+            png = out.with_suffix(".png")
+            subprocess.run(base + ["--force-device-scale-factor=1", "--window-size=1080,1350",
+                                   f"--screenshot={png}", cover.as_uri()], check=True, capture_output=True, timeout=120)
+            print(png)
+        else:
+            page.write_text(env.get_template(f"{tpl}.html").render(root=ROOT.as_uri(), **spec), encoding="utf-8")
+            subprocess.run(base + ["--force-device-scale-factor=2", "--window-size=1200,675",
+                                   f"--screenshot={out}", page.as_uri()], check=True, capture_output=True, timeout=120)
     print(out)
 
 

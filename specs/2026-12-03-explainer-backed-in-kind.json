@@ -1,0 +1,5 @@
+{"template":"columns","eyebrow":"Explainer","footer":"Xindex · Explainer","headline":"What actually sits behind<br><em>an index token?</em>","columns":[
+ {"tag":"Synthetic","title":"A price promise","text":"A contract pays the index return. You rely on whoever writes it."},
+ {"tag":"Claim","title":"An IOU","text":"Someone else holds the basket and issues you a claim on it."},
+ {"tag":"In kind","title":"The assets themselves","text":"The token holds every component on chain. Redeem and you can take them."}],
+ "bar":"Xindex index tokens are <em>backed in kind.</em>"}

@@ -1,0 +1,5 @@
+{"template":"chart","eyebrow":"Chart","footer":"Xindex · Chart","headline":"Passive keeps<br><em>compounding.</em>","sub":"Global ETF assets, in US dollars. September 2026 was the 88th straight month of net inflows.","source":"ETFGI","bars":[
+ {"x":"Dec 2024","value":14.85,"label_value":"$14.9T"},
+ {"x":"Dec 2025","value":19.81,"label_value":"$19.8T"},
+ {"x":"Apr 2026","value":21.91,"label_value":"$21.9T"},
+ {"x":"Sep 2026","value":23.91,"label_value":"$23.9T"}]}

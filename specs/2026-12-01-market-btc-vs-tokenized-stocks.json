@@ -1,0 +1,21 @@
+{
+ "template": "versus",
+ "eyebrow": "Market note",
+ "footer": "Xindex · Market note",
+ "headline": "Same market. <em>Different drivers.</em>",
+ "sides": [
+  {
+   "label": "Bitcoin",
+   "number": "6",
+   "tone": "down",
+   "note": "straight weekly declines, falling as low as $62k"
+  },
+  {
+   "label": "Tokenized stocks",
+   "number": "5×",
+   "tone": "up",
+   "note": "onchain value vs. January 1, and past $4B on Nov 11"
+  }
+ ],
+ "source": "The Block, Tokenization Briefing, November 19, 2026"
+}
