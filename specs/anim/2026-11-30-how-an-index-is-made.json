@@ -1,0 +1,4 @@
+{"template":"anim-index","eyebrow":"How an index is made","headline":"One token.<br><em>Many assets.</em>","index_name":"Global Core","duration":9.6,"still_t":4.6,
+"steps":[{"title":"Launch","text":"Pick the assets. Set the weights."},{"title":"Mint","text":"Pay in USDC. Get one token."},{"title":"Rebalance","text":"Prices drift. An open auction resets the weights."},{"title":"Redeem","text":"Exit any time."}],
+"groups":[{"name":"Crypto","color":"#3b82f6"},{"name":"Stocks & ETFs","color":"#8b5cf6"},{"name":"Gold","color":"#f2b84b"}],
+"assets":[{"sym":"BTC","name":"Bitcoin","g":0,"w":25,"drift":31},{"sym":"ETH","name":"Ether","g":0,"w":15,"drift":17},{"sym":"NVDA","name":"Nvidia","g":1,"w":10,"drift":9},{"sym":"AAPL","name":"Apple","g":1,"w":10,"drift":9},{"sym":"MSFT","name":"Microsoft","g":1,"w":10,"drift":9},{"sym":"SPY","name":"S&P 500 ETF","g":1,"w":10,"drift":9},{"sym":"XAUT","name":"Tether Gold","g":2,"w":20,"drift":16}]}

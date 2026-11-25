@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: 'General Sans'; src: url('{{ root }}/fonts/GeneralSans-Variable.woff2') format('woff2'); font-weight: 200 700; }
+  :root { --bg:#000; --card:#0a0a14; --cell:#07090f; --line:rgba(255,255,255,0.08); --line-2:rgba(255,255,255,0.14);
+    --text:#fff; --text-2:rgb(209,213,220); --text-3:rgb(153,161,175); --eyebrow:#abaebe;
+    --blue:#3b82f6; --blue-soft:#60a5fa; --violet:#8b5cf6; --gold:#f2b84b; --green:rgb(5,223,114); --red:rgb(248,113,113); }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:1200px; height:675px; background:#000; overflow:hidden; }
+  body { font-family:'General Sans', system-ui, sans-serif; color:var(--text); -webkit-font-smoothing:antialiased; }
+  .frame { position:relative; width:1200px; height:675px; padding:52px 72px; }
+  .glow { position:absolute; inset:0; background:radial-gradient(900px 420px at 80% -10%, rgba(70,110,255,0.16), transparent 62%); }
+  .top { position:relative; display:flex; justify-content:space-between; align-items:center; height:28px; }
+  .logo { height:26px; }
+  .eyebrow { font-size:13px; font-weight:500; letter-spacing:0.24em; text-transform:uppercase; color:var(--eyebrow); }
+  .left { position:absolute; left:72px; top:126px; width:380px; }
+  h1 { font-size:46px; line-height:1.06; font-weight:600; letter-spacing:-0.025em; }
+  h1 em { font-style:normal; color:var(--blue-soft); }
+  .steps { margin-top:34px; }
+  .step { display:flex; gap:16px; align-items:flex-start; padding:13px 0; border-top:1px solid var(--line); opacity:0.38; }
+  .step .n { flex:none; width:30px; height:30px; border-radius:50%; border:1px solid var(--line-2); display:grid; place-items:center; font-size:14px; font-weight:600; color:var(--text-2); }
+  .step .t { font-size:20px; font-weight:600; line-height:30px; }
+  .step .c { font-size:15px; line-height:1.4; color:var(--text-3); margin-top:2px; height:0; overflow:hidden; }
+  .step.on { opacity:1; }
+  .step.on .n { background:var(--blue); border-color:var(--blue); color:#fff; }
+  .step.on .c { height:42px; }
+  .card { position:absolute; left:508px; top:118px; width:620px; height:446px; background:var(--card); border:1px solid var(--line); border-radius:18px; padding:24px 28px; }
+  .ch { display:flex; justify-content:space-between; align-items:baseline; }
+  .ch .name { font-size:22px; font-weight:600; }
+  .ch .tag { font-size:11px; font-weight:500; letter-spacing:0.22em; text-transform:uppercase; color:var(--eyebrow); }
+  .bar { margin-top:16px; margin-right:104px; height:10px; border-radius:6px; background:rgba(255,255,255,0.05); display:flex; overflow:hidden; gap:2px; }
+  .seg { height:100%; width:0; }
+  .legend { margin-top:10px; display:flex; gap:18px; font-size:12px; color:var(--text-3); letter-spacing:0.04em; }
+  .legend i { display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:6px; vertical-align:middle; }
+  .rows { margin-top:12px; }
+  .row { display:flex; align-items:center; height:38px; border-top:1px solid var(--line); font-size:17px; opacity:0; }
+  .row .dot { width:8px; height:8px; border-radius:50%; margin-right:12px; }
+  .row .a { flex:1; color:var(--text-2); }
+  .row .a b { color:var(--text); font-weight:600; margin-right:8px; }
+  .row .w { width:72px; text-align:right; font-variant-numeric:tabular-nums; font-weight:600; }
+  .row .d { width:64px; text-align:right; font-size:13px; font-variant-numeric:tabular-nums; }
+  .token { position:absolute; right:20px; top:-18px; width:92px; height:92px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, #5c8dff, #1d3fb8 70%); box-shadow:0 0 0 1px rgba(255,255,255,0.18), 0 18px 60px rgba(59,130,246,0.45);
+    display:flex; flex-direction:column; align-items:center; justify-content:center; transform:scale(0); }
+  .token svg { width:24px; height:36px; }
+  .token span { margin-top:2px; font-size:10px; font-weight:600; letter-spacing:0.12em; }
+  .pill { position:absolute; height:40px; padding:0 18px; border-radius:999px; display:flex; align-items:center; gap:8px; font-size:16px; font-weight:600; opacity:0; }
+  .usdc { background:#0b1a33; border:1px solid rgba(96,165,250,0.5); color:var(--blue-soft); }
+  .auction { background:rgba(5,223,114,0.08); border:1px solid rgba(5,223,114,0.45); color:var(--green); font-size:14px; letter-spacing:0.08em; text-transform:uppercase; }
+  .note { position:absolute; left:508px; top:580px; width:620px; font-size:14px; color:var(--text-3); display:flex; justify-content:space-between; }
+  .foot { position:absolute; left:72px; right:72px; bottom:30px; display:flex; justify-content:space-between; font-size:14px; color:var(--text-3); }
+  .foot .h { color:var(--text-2); font-weight:500; }
+</style>
+</head>
+<body>
+<div class="frame">
+  <div class="glow"></div>
+  <div class="top"><img class="logo" src="{{ root }}/assets/xindex-wordmark-white.svg"><div class="eyebrow">{{ eyebrow or "How an index is made" }}</div></div>
+  <div class="left">
+    <h1>{{ headline | safe }}</h1>
+    <div class="steps">
+      {% for s in steps %}<div class="step" id="st{{ loop.index0 }}"><div class="n">{{ loop.index }}</div><div><div class="t">{{ s.title }}</div><div class="c">{{ s.text }}</div></div></div>{% endfor %}
+    </div>
+  </div>
+  <div class="card" id="card">
+    <div class="ch"><div class="name">{{ index_name }}</div></div>
+    <div class="bar">{% for g in groups %}<div class="seg" id="seg{{ loop.index0 }}" style="background:{{ g.color }}"></div>{% endfor %}</div>
+    <div class="legend">{% for g in groups %}<span><i style="background:{{ g.color }}"></i>{{ g.name }}</span>{% endfor %}</div>
+    <div class="rows">
+      {% for a in assets %}<div class="row" id="r{{ loop.index0 }}"><div class="dot" style="background:{{ groups[a.g].color }}"></div><div class="a"><b>{{ a.sym }}</b>{{ a.name }}</div><div class="w" id="w{{ loop.index0 }}">0%</div><div class="d" id="d{{ loop.index0 }}"></div></div>{% endfor %}
+    </div>
+    <div class="token" id="token"><svg viewBox="0 0 23 36" fill="#fff"><path d="M5.57 30H0L8.36 17.78L.25 6.45H5.95L13.8 17.9Z"/><path d="M12.59 12.42L15.29 16.05L22.67 6.45H17.1Z"/><path d="M12.59 22.75L14.93 19.49L22.67 30H17.1Z"/></svg><span>1 TOKEN</span></div>
+  </div>
+  <div class="pill usdc" id="usdc">USDC</div>
+  <div class="pill auction" id="auction">Open auction</div>
+  <div class="note"><span id="notel">Backed in kind: the token holds every asset.</span><span>Illustrative index</span></div>
+  <div class="foot"><span>{{ footer or "The index layer for crypto" }}</span><span class="h">@Xindexio</span></div>
+</div>
+<script>
+const A = {{ assets | tojson }};
+const G = {{ groups | tojson }};
+const D = {{ duration or 9.6 }};
+const P = { launch:[0,3.4], mint:[3.4,5.2], reb:[5.2,7.6], red:[7.6,9.0] };
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const ease=x=>{x=clamp(x);return x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;};
+const prog=(t,[a,b])=>clamp((t-a)/(b-a));
+const $=id=>document.getElementById(id);
+const card=$('card'), CB={x:508,y:118,w:620,h:446};
+function weightsAt(t){
+  // launch: rows appear one by one; rebalance: drift then snap back
+  const pl=prog(t,P.launch), pr=prog(t,P.reb);
+  return A.map((a,i)=>{
+    const appear=ease(clamp(pl*A.length*0.9 - i*0.9 +0.6));
+    let w=a.w*appear;
+    if(t>=P.reb[0] && t<P.reb[1]){
+      const drift=ease(clamp(pr/0.45)), back=ease(clamp((pr-0.55)/0.4));
+      w=a.w + (a.drift-a.w)*drift*(1-back);
+    }
+    return {w, appear};
+  });
+}
+window.render=function(t){
+  t = ((t % D) + D) % D;
+  const ws=weightsAt(t);
+  // steps
+  const phase = t<P.mint[0]?0 : t<P.reb[0]?1 : t<P.red[0]?2 : 3;
+  for(let i=0;i<4;i++) $('st'+i).className='step'+(i===phase?' on':'');
+  // rows
+  const pr=prog(t,P.reb);
+  A.forEach((a,i)=>{
+    const r=$('r'+i); r.style.opacity=ws[i].appear; r.style.transform=`translateX(${(1-ws[i].appear)*40}px)`;
+    $('w'+i).textContent=ws[i].w.toFixed(0)+'%';
+    const diff=ws[i].w-a.w; const d=$('d'+i);
+    if(t>=P.reb[0]&&t<P.reb[1]&&Math.abs(diff)>=0.5){ d.textContent=(diff>0?'+':'')+diff.toFixed(0); d.style.color=diff>0?'var(--green)':'var(--red)'; }
+    else if(t>=P.reb[0]&&t<P.reb[1]&&pr>0.6){ d.textContent='✓'; d.style.color='var(--green)'; }
+    else d.textContent='';
+  });
+  // bar
+  const tot=G.map((g,gi)=>ws.reduce((s,x,i)=>s+(A[i].g===gi?x.w:0),0));
+  tot.forEach((v,gi)=>$('seg'+gi).style.width=v+'%');
+  // mint: USDC flies in, token pops
+  const pm=prog(t,P.mint), usdc=$('usdc');
+  const tok=$('token');
+  let ts=0;
+  if(t>=P.mint[0]&&t<P.reb[0]){
+    const k=ease(clamp(pm/0.55));
+    usdc.style.opacity=1-clamp((pm-0.55)/0.15);
+    usdc.style.left=(300+ (CB.x+CB.w-120-300)*k)+'px'; usdc.style.top=(610-(610-(CB.y+8))*k)+'px';
+    ts=ease(clamp((pm-0.5)/0.35))*1.0;
+  } else usdc.style.opacity=0;
+  if(t>=P.reb[0]) ts=1;
+  // redeem: token shrinks, USDC flies out
+  const pd=prog(t,P.red);
+  if(t>=P.red[0]){
+    ts = 1-ease(clamp(pd/0.5));
+    const k=ease(clamp((pd-0.35)/0.5));
+    usdc.style.opacity= t<P.red[1]? clamp((pd-0.3)/0.1) * (1-clamp((pd-0.85)/0.15)) : 0;
+    usdc.style.left=(CB.x+CB.w-120 + (300-(CB.x+CB.w-120))*k)+'px'; usdc.style.top=((CB.y+8)+(610-(CB.y+8))*k)+'px';
+  }
+  if(t>=P.red[1]) { ts=0; }
+  tok.style.transform=`scale(${ts})`;
+  // rows fade out at the end for the loop
+  const fadeOut=clamp((t-(D-0.5))/0.5);
+  card.style.opacity=1-fadeOut*0.0;
+  if(t>D-0.6){ A.forEach((a,i)=>{$('r'+i).style.opacity=1-clamp((t-(D-0.6))/0.5);}); G.forEach((g,gi)=>$('seg'+gi).style.opacity=1-clamp((t-(D-0.6))/0.5)); }
+  else G.forEach((g,gi)=>$('seg'+gi).style.opacity=1);
+  // auction pill
+  const au=$('auction');
+  if(t>=P.reb[0]&&t<P.reb[1]){ au.style.opacity=clamp((pr-0.4)/0.1)*(1-clamp((pr-0.92)/0.08)); au.style.left=(CB.x+CB.w/2-80)+'px'; au.style.top=(CB.y+CB.h-58)+'px'; }
+  else au.style.opacity=0;
+  // note line
+  $('notel').textContent = phase===2 ? 'Prices drift. The auction brings weights back.' : phase===3 ? 'Redeem any time.' : phase===1 ? 'Pay in USDC or USDT. Get one token.' : 'Backed in kind: the token holds every asset.';
+};
+render({{ preview_t or 2.0 }});
+</script>
+</body>
+</html>
