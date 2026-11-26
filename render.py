@@ -12,8 +12,8 @@ Output is a 1200x675 frame rendered at 2x (2400x1350 PNG), which fits
 X (16:9) and LinkedIn feed images. The "carousel" template writes a 1080x1350
 multi-page PDF (a LinkedIn document post) plus a PNG of its first slide.
 
-Fonts: General Sans is not stored in this public repo (its licence is not
-an open-source one). Put GeneralSans-Variable.woff2 in fonts/ before rendering;
+Fonts: Figtree (SIL Open Font License), the font of xindex.io, ships in
+assets/site/figtree-var-latin.woff2;
 without it the image falls back to the system sans.
 """
 import json, os, pathlib, shutil, subprocess, sys, tempfile
@@ -38,8 +38,6 @@ def render(spec_path, out_path):
         sys.exit(f"template must be one of {TEMPLATES}, got {tpl!r}")
     if tpl in ("stat", "versus", "chart") and not spec.get("source"):
         sys.exit(f"{tpl} template needs a 'source' (real, citable numbers only)")
-    if not (ROOT / "fonts" / "GeneralSans-Variable.woff2").exists():
-        print("WARNING: fonts/GeneralSans-Variable.woff2 missing - falling back to system sans", file=sys.stderr)
     env = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True)
     out = pathlib.Path(out_path).resolve()
     out.parent.mkdir(parents=True, exist_ok=True)

@@ -1,0 +1,18 @@
+{
+  "template": "anim-site",
+  "eyebrow": "How an index coin works",
+  "index_name": "Global Core",
+  "network": "Ethereum",
+  "pay": 1000,
+  "pay_symbol": "USDC",
+  "inside_note": "BTC, ETH, NVIDIA and gold inside",
+  "scenes": ["create", "buy", "rebalance"],
+  "assets": [
+    {"sym": "BTC",  "name": "Bitcoin",     "icon": "btc",    "color": "rgb(247,147,26)",  "w": 40, "drift": 46},
+    {"sym": "ETH",  "name": "Ethereum",    "icon": "eth",    "color": "rgb(190,200,230)", "w": 30, "drift": 27},
+    {"sym": "NVDA", "name": "NVIDIA",      "icon": "nvdaon", "color": "rgb(118,185,0)",   "w": 20, "drift": 19},
+    {"sym": "GOLD", "name": "Tether Gold", "icon": "xaut",   "color": "rgb(212,175,55)",  "w": 10, "drift": 8}
+  ],
+  "duration": 14,
+  "still_t": 8.6
+}

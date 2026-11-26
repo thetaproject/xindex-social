@@ -31,8 +31,6 @@ def main(spec_path, out_base):
     tpl = spec["template"]
     if not tpl.startswith("anim-"):
         sys.exit("animated templates are named anim-*")
-    if not (ROOT / "fonts" / "GeneralSans-Variable.woff2").exists():
-        print("WARNING: fonts/GeneralSans-Variable.woff2 missing", file=sys.stderr)
     dur = float(spec.get("duration", 9.6))
     html = Environment(loader=FileSystemLoader(ROOT / "templates"), autoescape=True) \
         .get_template(f"{tpl}.html").render(root=ROOT.as_uri(), **spec)
